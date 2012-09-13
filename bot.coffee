@@ -5,7 +5,7 @@ HTTP       = require 'http'
 
 Options =
   adapter: "irc"
-  alias: false
+  alias: '!'
   enableHttpd: true
   name: "Hubot"
   path: "."

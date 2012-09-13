@@ -66,12 +66,48 @@ template = (data) ->
 
 		time = datetime.toLocaleTimeString()
 
-		messages += "[#{date} #{time}] #{message.user}: #{message.text}\n"
+		messages += "[<span date-datetime=\"#{datetime.toISOString()}\">#{date} #{time}</span>] #{message.user}: #{message.text}\n"
 
 	"""
 <html>
 	<head>
 		<title>Nette FW - IRC - Logs</title>
+		<script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
+		<script>
+			formatDate = function(date) {
+				var day, hours, minutes, month, seconds;
+				if (typeof date !== 'object') {
+					date = new Date(date);
+				}
+				date = new Date(date.toISOString());
+				month = date.getMonth() + 1;
+				if (("" + month).length < 2) {
+					month = "0" + month;
+				}
+				day = date.getDate();
+				if (("" + day).length < 2) {
+					day = "0" + day;
+				}
+				hours = date.getHours();
+				if (("" + hours).length < 2) {
+					hours = "0" + hours;
+				}
+				minutes = date.getMinutes();
+				if (("" + minutes).length < 2) {
+					minutes = "0" + minutes;
+				}
+				seconds = date.getSeconds();
+				if (("" + seconds).length < 2) {
+					seconds = "0" + seconds;
+				}
+				return "" + (date.getFullYear()) + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+			};
+			$('date-datetime').each(function(i, el) {
+				$el = $(el);
+				datetime = $el.attr('date-datetime');
+				$el.attr('date-datetime', formatDate(datetime));
+			});
+		</script>
 	</head>
 	<body>
 		<h1>Nette FW - IRC - Logs</h1>
